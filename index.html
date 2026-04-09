@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[vrsn] Full Funnel Copy - Skyvane</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&family=Abril+Fatface&display=swap');
+
+  :root {
+    --ink: #111110;
+    --paper: #f7f4f0;
+    --paper2: #eeebe5;
+    --paper3: #e5e1da;
+    --accent: #c04e28;
+    --accent2: #2b6b4e;
+    --accent3: #c8921a;
+    --muted: #787068;
+    --border: #ddd9d2;
+    --r: 3px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .masthead-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .masthead-title em { font-style: italic; color: #e8a060; }
+  .masthead-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: rgba(247,244,240,0.5);
+    text-align: right;
+    line-height: 2;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--paper2);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 48px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .toc-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+  .toc-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--paper);
+  }
+  .toc-link:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── LAYOUT ── */
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 48px 80px; }
+
+  /* ── CHAPTER HEADER ── */
+  .chapter {
+    margin-top: 64px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .chapter-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+  }
+  .chapter-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .sec-div {
+    margin: 40px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .sec-div-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sec-div-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+  }
+  .sec-div-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-left: auto;
+  }
+  .tag-brief { background: rgba(200,146,26,0.12); color: #7a5800; border: 1px solid rgba(200,146,26,0.3); }
+  .tag-full { background: rgba(192,78,40,0.1); color: var(--accent); border: 1px solid rgba(192,78,40,0.25); }
+  .tag-quiz { background: rgba(43,107,78,0.1); color: var(--accent2); border: 1px solid rgba(43,107,78,0.25); }
+
+  /* ── BRIEF CARD (PDP) ── */
+  .brief-card {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .brief-hdr {
+    background: var(--paper2);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brief-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .brief-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .brief-body { padding: 20px; }
+  .brief-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 10px 16px;
+    margin-bottom: 10px;
+    align-items: start;
+  }
+  .brief-lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-top: 2px;
+  }
+  .brief-val { font-size: 13px; line-height: 1.6; }
+  .brief-hook {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 15px;
+    background: var(--paper3);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 14px 0;
+    line-height: 1.5;
+    border-radius: 0 var(--r) var(--r) 0;
+  }
+  .diff-note {
+    background: rgba(43,107,78,0.06);
+    border: 1px solid rgba(43,107,78,0.2);
+    border-radius: var(--r);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #1a4a30;
+    margin-top: 14px;
+  }
+  .diff-note strong { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; color: var(--accent2); }
+
+  /* ── COPY PAGE (ADVERTORIAL / LISTICLE) ── */
+  .copy-page {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .copy-hdr {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .copy-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: rgba(247,244,240,0.12);
+    border: 1px solid rgba(247,244,240,0.2);
+    color: var(--paper);
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .copy-title { font-size: 14px; font-weight: 500; }
+  .copy-target {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: rgba(247,244,240,0.5);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .copy-body { padding: 28px 32px; }
+
+  /* Section labels inside copy */
+  .copy-section-lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+  .copy-section-lbl:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .subhead {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .body-copy {
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .body-copy + .body-copy { margin-top: -4px; }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.5;
+    border-left: 3px solid var(--accent);
+    padding: 10px 18px;
+    margin: 18px 0;
+    color: var(--ink);
+    background: var(--paper2);
+    border-radius: 0 var(--r) var(--r) 0;
+  }
+  .pull-quote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .numbered-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: start;
+  }
+  .item-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .item-body {}
+  .item-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .item-copy {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .item-resolution {
+    font-size: 12.5px;
+    color: var(--accent2);
+    background: rgba(43,107,78,0.06);
+    border-left: 2px solid var(--accent2);
+    padding: 6px 10px;
+    margin-top: 8px;
+    border-radius: 0 var(--r) var(--r) 0;
+  }
+  .item-resolution strong { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+
+  .cta-block {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--r);
+    padding: 20px 24px;
+    margin-top: 24px;
+    text-align: center;
+  }
+  .cta-block .cta-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .cta-block .cta-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(247,244,240,0.6);
+    margin-bottom: 14px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 28px;
+    border-radius: var(--r);
+    letter-spacing: 0.03em;
+  }
+
+  /* Comparison table */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .comp-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .comp-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .comp-table tr.vrsn-row td { background: rgba(43,107,78,0.05); font-weight: 500; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .tick { color: var(--accent2); font-weight: 700; }
+  .cross { color: #b04040; }
+  .partial { color: var(--accent3); }
+
+  /* Quiz section */
+  .quiz-q {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .quiz-q-hdr {
+    background: var(--paper2);
+    padding: 10px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .quiz-q-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2px 7px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .quiz-q-text { font-weight: 500; font-size: 13px; }
+  .quiz-options { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .quiz-opt {
+    font-size: 12px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .route-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 14px 0;
+  }
+  .route-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .route-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .route-table tr:last-child td { border-bottom: none; }
+  .route-dest {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: var(--paper2);
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  /* Outcome page */
+  .outcome-page {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .outcome-hdr {
+    background: var(--accent2);
+    color: white;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .outcome-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: rgba(255,255,255,0.15);
+    padding: 3px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .outcome-title { font-weight: 500; font-size: 13px; }
+  .outcome-body { padding: 22px 24px; }
+  .outcome-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .outcome-sub {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .outcome-proof { font-size: 13px; line-height: 1.7; margin-bottom: 12px; }
+  .outcome-cta {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--r);
+    padding: 16px 20px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .outcome-cta-text { font-size: 13px; line-height: 1.5; }
+  .outcome-cta-btn {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 9px 20px;
+    border-radius: var(--r);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .outcome-trust {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* Doc footer */
+  .doc-footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 48px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 700px) {
+    .masthead, .toc, .wrap, .doc-footer { padding-left: 20px; padding-right: 20px; }
+    .brief-row, .numbered-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,244,240,0.4);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">Skyvane × [vrsn] · Full Funnel Copy</div>
+    <div class="masthead-title">Copy <em>&amp; Angle</em> Master Doc</div>
+  </div>
+  <div class="masthead-meta">
+    10 assets · 4 formats<br>
+    3 PDP Briefs · 3 Advertorials<br>
+    3 Listicles · 1 Quiz (2 versions)<br>
+    April 2026
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <span class="toc-label">Jump to</span>
+  <a class="toc-link" href="#pdp">01 · PDP Briefs</a>
+  <a class="toc-link" href="#adv">02 · Advertorials</a>
+  <a class="toc-link" href="#list">03 · Listicles</a>
+  <a class="toc-link" href="#quiz-a">04A · Quiz Logic</a>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHAPTER 01: PDP BRIEFS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="chapter" id="pdp">
+  <div class="chapter-num">01</div>
+  <div class="chapter-title">PDP-Style Pages</div>
+  <div class="chapter-sub">Direction only · No full copy · 3 briefs</div>
+</div>
+
+<p class="body-copy" style="margin-top:20px;color:var(--muted);font-size:13px;">These are angle briefs, not finished copy. Each brief defines the hook, target customer, key messages, and what makes it distinct from the other two. Full copy to be written against these briefs in Manus.</p>
+
+<!-- PDP 01 -->
+<div class="sec-div">
+  <div class="sec-div-num">PDP 01</div>
+  <div class="sec-div-title">Daily Wear Realities - The Washable PDP</div>
+  <div class="sec-div-tag tag-brief">Brief Only</div>
+</div>
+
+<div class="brief-card">
+  <div class="brief-hdr">
+    <div class="brief-badge">ANGLE</div>
+    <div class="brief-name">The shoe built for your real life, not a showroom</div>
+  </div>
+  <div class="brief-body">
+    <div class="brief-hook">"You wear these 14 hours a day. Every day. Your feet deserve a shoe that can actually keep up."</div>
+    <div class="brief-row">
+      <div class="brief-lbl">Target customer</div>
+      <div class="brief-val">Healthcare workers (nurses, surgeons, medical assistants), teachers, hospitality and retail staff. On their feet 8–14 hours daily. Foot pain is occupational, not occasional. Hygiene is a medical need - they sweat through shoes weekly. Age 28–52, pragmatic buyers who value function over story.</div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">Key messages</div>
+      <div class="brief-val">
+        1. You live in these shoes - they should survive it.<br>
+        2. No other pain-relief shoe is machine washable. Kuru: no. Vionic: no. Orthofeet: no. [vrsn]: yes - own it hard.<br>
+        3. OrthoLite + SweetFoam stay intact after washing. The tech holds - that's the proof.<br>
+        4. Dr. Ashford DPM: daily hygiene is directly linked to foot health outcomes. Use his authority here.<br>
+        5. 100-day guarantee: wear them every day for over 3 months, wash them as needed, return if not right.
+      </div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">Page structure</div>
+      <div class="brief-val">Hero: emotional truth (daily wear reality) → Problem agitation: what happens to unsupported feet after 14 hours → Product intro: built for this specific life → Tech proof: OrthoLite + SweetFoam + washability explained → Comparison block: [vrsn] vs Kuru vs Orthofeet on washability → Testimonials from on-feet professionals → Dr. Ashford quote → Objection handling: "But will the support last after washing?" → CTA</div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">CTA</div>
+      <div class="brief-val">"Built for your real day. Try risk-free for 100 days." → Shop [vrsn]</div>
+    </div>
+    <div class="diff-note">
+      <strong>Why this is different from PDP 02 + 03</strong>
+      Buyer identity is occupational, not ideological (barefoot) or recreational (travel). The villain is not a shoe brand - it's the daily grind itself. Washability is not a convenience claim here; it's a medical hygiene argument backed by a DPM. This is the only PDP where the purchase motivation is "this is my job" rather than "I want my old life back."
+    </div>
+  </div>
+</div>
+
+<!-- PDP 02 -->
+<div class="sec-div">
+  <div class="sec-div-num">PDP 02</div>
+  <div class="sec-div-title">The Barefoot Betrayal</div>
+  <div class="sec-div-tag tag-brief">Brief Only</div>
+</div>
+
+<div class="brief-card">
+  <div class="brief-hdr">
+    <div class="brief-badge">ANGLE</div>
+    <div class="brief-name">You switched to barefoot to be healthier. Then your Achilles gave out.</div>
+  </div>
+  <div class="brief-body">
+    <div class="brief-hook">"You did everything right. Switched to zero-drop. Strengthened your feet. Then concrete happened."</div>
+    <div class="brief-row">
+      <div class="brief-lbl">Target customer</div>
+      <div class="brief-val">Barefoot shoe converts - Vivobarefoot, Xero, Merrell Trail Glove wearers who developed PF, Achilles tendinopathy, or metatarsal stress fractures from urban/concrete wear. Age 28–48, health-conscious, already understand foot biomechanics. No need to educate them about arch support - they're against it. Need to be met where they are.</div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">Key messages</div>
+      <div class="brief-val">
+        1. Barefoot works on trails. Concrete is different - 3× your body weight hits your heel with every step on hard surfaces.<br>
+        2. You don't have to abandon your philosophy. [vrsn] is not a traditional support shoe - your foot muscles still work.<br>
+        3. SweetFoam absorbs concrete impact without forcing an unnatural position. Not zero-drop, not wedged - calibrated.<br>
+        4. "Relief today, strength tomorrow" - you'll still build foot strength over time. You won't become dependent.<br>
+        5. Goldilocks positioning: not too much, not too little. The thing that was missing.
+      </div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">Page structure</div>
+      <div class="brief-val">Hero: acknowledge the barefoot belief system respectfully → Problem: what concrete actually does to feet versus trail → The barefoot betrayal: you followed the rules and still got hurt → [vrsn] as the Goldilocks answer: not zero-drop, not orthotic → Tech proof: how SweetFoam differs from standard cushioning → Testimonials from buyers who came from barefoot brands → Dr. Ashford DPM on the urban barefoot injury pattern → Objection: "Isn't this just another support shoe?" → CTA</div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">CTA</div>
+      <div class="brief-val">"Not zero-drop. Not orthotic. Find the middle ground." → Shop [vrsn]</div>
+    </div>
+    <div class="diff-note">
+      <strong>Why this is different from PDP 01 + 03</strong>
+      The only PDP with a named ideological villain (barefoot shoes + concrete). Buyer already understands biomechanics - skip the basic education, go straight to the reframe. Zero competitors address this audience. The Goldilocks positioning is the literal product answer to their specific injury. Build this first - strongest cold traffic potential.
+    </div>
+  </div>
+</div>
+
+<!-- PDP 03 -->
+<div class="sec-div">
+  <div class="sec-div-num">PDP 03</div>
+  <div class="sec-div-title">The Travel Shoe That Solves Foot Pain</div>
+  <div class="sec-div-tag tag-brief">Brief Only</div>
+</div>
+
+<div class="brief-card">
+  <div class="brief-hdr">
+    <div class="brief-badge">ANGLE</div>
+    <div class="brief-name">Proof by extreme use - not lab claims, real traveller results</div>
+  </div>
+  <div class="brief-body">
+    <div class="brief-hook">"20,000 steps a day in Japan. Three weeks in Europe. Machu Picchu twice. Your feet shouldn't be the reason you slow down."</div>
+    <div class="brief-row">
+      <div class="brief-lbl">Target customer</div>
+      <div class="brief-val">International travellers age 35–62, high-income, plan multiple trips per year. Walk 12–25K steps per day on trips. Cobblestones, uneven terrain, long museum days. Currently sacrificing style for function (clunky trail runners) or suffering for aesthetics (nice shoes, destroyed feet). Want one pair that solves both.</div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">Key messages</div>
+      <div class="brief-val">
+        1. Real proof, not lab claims - anchor every benefit to a verified buyer review from a travel context.<br>
+        2. Japan. Machu Picchu. Atlas Mountains. Frankfurt cobblestones. These reviews exist - use them verbatim.<br>
+        3. Machine washable = cobblestone mud, 3-week trip, still clean. Unique in the category.<br>
+        4. Style works at dinner, not just on the walking tour. No compromise on aesthetics.<br>
+        5. 100-day guarantee = try them for an entire trip. No risk.
+      </div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">Page structure</div>
+      <div class="brief-val">Hero: destination imagery through copy (no images) + step count hook → The travel foot pain problem: what 20K steps on cobblestone actually does → The false choice travellers make: ugly and comfortable OR stylish and suffering → [vrsn] as the solution: proof by verified travel reviews → Feature proof: cushioning, washability, style versatility → Testimonial section: build entirely from travel-specific reviews → Style section: works in the restaurant, not just on the trail → Objection: "Will they really hold up?" → CTA</div>
+    </div>
+    <div class="brief-row">
+      <div class="brief-lbl">CTA</div>
+      <div class="brief-val">"Pack one pair. Walk everywhere." → Shop [vrsn]</div>
+    </div>
+    <div class="diff-note">
+      <strong>Why this is different from PDP 01 + 02</strong>
+      Proof format is experiential and geographic, not clinical or ideological. Buyer identity is recreational ("I travel, I explore") not occupational or philosophical. Narrowest audience - best as mid-funnel destination for warmer traffic. The verified reviews are the creative brief - the page is essentially curated customer evidence, not brand claims.
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHAPTER 02: ADVERTORIALS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="chapter" id="adv">
+  <div class="chapter-num">02</div>
+  <div class="chapter-title">Advertorials</div>
+  <div class="chapter-sub">Full copy · Story-first · 3 angles</div>
+</div>
+
+<p class="body-copy" style="margin-top:20px;color:var(--muted);font-size:13px;">All three are editorial-style pages - no visible brand nav, reads like an article. Story hook opens the page. Product introduced at ~40% scroll. Each page ends with a hard CTA. Voice: first-person or strong third-person narrative.</p>
+
+<!-- ─── ADV 01 ─── -->
+<div class="sec-div">
+  <div class="sec-div-num">ADV 01</div>
+  <div class="sec-div-title">"I Finally Found What Actually Fixed My Plantar Fasciitis"</div>
+  <div class="sec-div-tag tag-full">Full Copy</div>
+</div>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">ADVERTORIAL 01</div>
+    <div class="copy-title">The PF Story - Cold Traffic Workhorse</div>
+    <div class="copy-target">Target: 35–55 women · Chronic PF · "Tried everything" buyer</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Hero Headline</div>
+    <div class="headline">I Spent 3 Years Managing My Plantar Fasciitis.<br>Then I Actually Fixed It.</div>
+    <p class="body-copy">I want to be clear about something before I start: I was not looking for another shoe. I had a drawer full of failed experiments - three different "podiatrist-approved" brands, two pairs of orthotics, one cortisone shot, and a physio appointment every six weeks. I had accepted, somewhere around year two, that plantar fasciitis was just something I was going to manage. Not fix. Manage.</p>
+    <p class="body-copy">I was wrong. But it took me a long time to find out why.</p>
+
+    <div class="copy-section-lbl">Problem - The Morning Ritual</div>
+    <div class="subhead">Every morning started the same way.</div>
+    <p class="body-copy">Before I got out of bed, I would flex my foot. Testing. Waiting for the sharp stab of heel pain that told me today was going to be a bad day. Sometimes it wasn't too bad. Sometimes I couldn't put weight on it for the first twenty minutes. My physio called it "first-step pain." I called it my alarm clock.</p>
+    <p class="body-copy">I'm a nurse. I'm on my feet for twelve-hour shifts. "Just rest it" was not advice I could use. "Try these insoles" was advice I had tried six times. "Lose weight" was advice I filed under things people say when they don't know what else to say.</p>
+    <p class="body-copy">The cortisone injection helped for about six weeks. Then the pain came back, slightly different in character, exactly the same in inconvenience. My podiatrist mentioned custom orthotics - $380, partially covered - and I said yes, because at that point I would have tried anything.</p>
+    <p class="body-copy">The orthotics helped. And then I became completely dependent on them. I couldn't walk to the bathroom without them. My physio said this was normal. "Your feet aren't strengthening," he mentioned once, carefully. "They're being supported instead."</p>
+    <p class="body-copy">I did not fully understand what that meant until much later.</p>
+
+    <div class="copy-section-lbl">The Turn - Discovery</div>
+    <div class="subhead">A colleague mentioned them almost as an afterthought.</div>
+    <p class="body-copy">We were talking in the break room - the kind of conversation that nurses have at 4am when the ward is quiet. She noticed me wincing as I shifted weight. "Have you tried [vrsn]?" she asked. "Someone in ortho was raving about them."</p>
+    <p class="body-copy">I looked them up on my break. They looked like regular sneakers. Nice ones, actually. Not the kind of thing that comes in orthopedic beige with extra depth and a velcro strap. I was immediately suspicious - in my experience, the nicer the shoe looked, the less it did for foot pain.</p>
+    <p class="body-copy">But the reviews stopped me. Not the star rating - the actual words people were using. "I haven't had my morning hobble in six weeks." "I forgot what it felt like to walk normally." "I was in orthotics for four years. I haven't needed them in two months."</p>
+    <p class="body-copy">That last one I read three times.</p>
+
+    <div class="copy-section-lbl">Product Introduction - Natural Language, No Jargon</div>
+    <div class="subhead">What [vrsn] actually is - and why it's different.</div>
+    <p class="body-copy">[vrsn] was designed around a principle I'd never heard a shoe brand use: "Relief today, strength tomorrow." The idea isn't to replace what your foot does. It's to support it enough to function without pain, while allowing your foot muscles to continue working. Not a crutch. Not a void of support. Something in between.</p>
+    <p class="body-copy">The cushioning system - OrthoLite insoles with SweetFoam midsole - absorbs impact the way your heel can't when the plantar fascia is inflamed. But unlike a rigid orthotic, the shoe doesn't lock your foot into position. Your muscles still have to work. Your arch still engages. Over time, the support requirement decreases as the foot gets stronger.</p>
+    <p class="body-copy">"That's the design intention," says Dr. D. Ashford, DPM, who was involved in the development. "Most orthotic interventions create dependency because they do the work the foot should be doing. [vrsn]'s engineering is calibrated to provide relief without removing the stimulus for foot muscle engagement."</p>
+    <p class="body-copy">I didn't fully understand the mechanics when I ordered them. I just knew the reviews were different from anything I'd read before.</p>
+
+    <div class="copy-section-lbl">Proof - Real Buyer Voices</div>
+    <div class="pull-quote">
+      "I also have an Achilles heel and tendinitis issue in my left foot, but my feet were still happy hours after wearing them. They make walking a joy again."
+      <cite>- Joanne Lewis</cite>
+    </div>
+    <div class="pull-quote">
+      "I've been wearing these at work everyday, all day. So comfortable that I end the day fatigue-free - even when standing up and walking around all day."
+      <cite>- Matt Weseloh</cite>
+    </div>
+    <div class="pull-quote">
+      Buyers managing chronic plantar fasciitis consistently describe the same turning point: the morning first-step pain fading within four to six weeks of daily wear. Not reduced. Gone. The pattern shows up across reviews from people who had tried orthotics, cortisone, and multiple shoe brands before [vrsn].
+    </div>
+
+    <div class="copy-section-lbl">Resolution - What Happened</div>
+    <div class="subhead">What happened when I actually wore them.</div>
+    <p class="body-copy">The first shift, I noticed the cushioning but didn't get excited - every new shoe feels good for the first day. The second shift, same. The third, I was suspicious of how little I was thinking about my feet. By the end of the first week, I was looking for the morning hobble out of habit. It wasn't there.</p>
+    <p class="body-copy">I want to be precise about what fixed: not just the pain, but the dependency. At eight weeks, I wore a different pair of shoes to a dinner - something flat and not particularly supportive. In the old days, this would have cost me two days of recovery. Nothing happened. My physio, at my next appointment, looked at my gait and asked what I'd changed.</p>
+    <p class="body-copy">I told him about [vrsn]. He asked me to send him the link.</p>
+
+    <div class="copy-section-lbl">CTA</div>
+    <div class="cta-block">
+      <div class="cta-main">If you've tried everything else - try this one.</div>
+      <div class="cta-sub">100-day guarantee. Free returns. No risk - just 100 days to find out if it works for your feet.</div>
+      <div class="cta-btn">Shop [vrsn] - Try Risk Free</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── ADV 02 ─── -->
+<div class="sec-div">
+  <div class="sec-div-num">ADV 02</div>
+  <div class="sec-div-title">"My Podiatrist Said I'd Need Orthotics Forever. I Stopped After 8 Months."</div>
+  <div class="sec-div-tag tag-full">Full Copy</div>
+</div>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">ADVERTORIAL 02</div>
+    <div class="copy-title">The Orthotics Exit - Unclaimable by Competitors</div>
+    <div class="copy-target">Target: 35–55 · Long-term orthotic users · Physio-aware · Wants independence</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Hero Headline</div>
+    <div class="headline">I Wore Custom Orthotics for Four Years.<br>Here's Why I Don't Anymore.</div>
+    <p class="body-copy">I'm not anti-medicine. I'm not anti-podiatrist. My podiatrist is a good doctor who gave me the correct standard-of-care recommendation for my plantar fasciitis: custom orthotics, $380, new pair every twelve to eighteen months.</p>
+    <p class="body-copy">What she didn't tell me - and I don't think she was hiding anything, I think this is just how the conversation goes - is that orthotics manage the problem without addressing the cause. Four years later, I had managed feet, not healthy feet. And I was starting to wonder if there was a difference.</p>
+
+    <div class="copy-section-lbl">Problem - The Dependency Trap</div>
+    <div class="subhead">The thing no one tells you about long-term orthotics.</div>
+    <p class="body-copy">Here's what four years of custom orthotics looked like in practice: $380 every fourteen months (insurance covered half - some years). One pair I had to throw out after nine months because they'd compressed unevenly. Two pairs of shoes retired early because they weren't compatible with the orthotic bulk. And every single morning: orthotics first, then shoes. Always.</p>
+    <p class="body-copy">On the one day I forgot them at home - I'd gone back to the office for a meeting after working from home - I lasted four hours before I had to leave. My feet, after four years of support, had essentially stopped being able to support themselves.</p>
+    <p class="body-copy">My physio - different from my podiatrist, someone I started seeing for a running injury - was the first person to name this directly. "Your intrinsic foot muscles are very weak," he said, pressing on my arch. "Not weaker than before the orthotics. Weaker because of them."</p>
+    <p class="body-copy">He wasn't recommending I stop. He was just being honest. And it planted something I couldn't ignore.</p>
+
+    <div class="copy-section-lbl">The Science - One Sentence, No Jargon</div>
+    <div class="subhead">The research that changed how I thought about this.</div>
+    <p class="body-copy">I started reading. A 2021 meta-analysis published in the Journal of Orthopaedic and Sports Physical Therapy (Hoang et al.) found that exercise alone, or exercise combined with orthotics, produced better pain relief outcomes than orthotics alone. Strengthening had better results than passive treatment.</p>
+    <p class="body-copy">Orthotics are passive treatment. They do something to your foot. Exercise, and shoes that allow your foot to work, are active. They do something with your foot.</p>
+    <p class="body-copy">This is not fringe science. This is published, peer-reviewed, and widely cited in physiotherapy literature. It just doesn't come up in the ten-minute orthotics consultation.</p>
+
+    <div class="copy-section-lbl">Discovery - Finding [vrsn]</div>
+    <div class="subhead">I wasn't looking for a shoe. I was looking for a way out.</div>
+    <p class="body-copy">I searched for a long time for something that would give me enough pain relief to function without making my feet more dependent. Everything I tried was either too minimal (immediate pain) or too supportive (more dependency). Running shoes. Walking shoes. Three different "podiatrist-recommended" brands.</p>
+    <p class="body-copy">A physiotherapy forum - the kind of corner of the internet populated by people who have read too many research papers - kept coming back to one thing: the concept of progressive foot loading. The idea that the shoe should provide enough support to allow function while still requiring the foot to do some of the work.</p>
+    <p class="body-copy">[vrsn] came up in that context. "Relief today, strength tomorrow" wasn't marketing language to me by that point. It was a description of exactly what I was looking for.</p>
+
+    <div class="copy-section-lbl">What [vrsn] Is - Precise, Clinical Tone</div>
+    <div class="subhead">How it works - precisely.</div>
+    <p class="body-copy">[vrsn]'s construction uses OrthoLite insoles and SweetFoam cushioning to absorb impact at the heel and forefoot - reducing the load on the plantar fascia during the pain phase - while the shoe's architecture doesn't lock the foot into a corrected position the way a rigid orthotic does. The foot still pronates naturally. The arch still engages. The difference is that the peak impact forces are managed so that engagement happens without inflammation.</p>
+    <p class="body-copy">"The goal is not to take over from your foot," says Dr. D. Ashford, DPM. "The goal is to take the edge off what your foot can't yet handle, while leaving everything else intact. That's a different design brief from most orthopedic footwear."</p>
+    <p class="body-copy">It took me four years and one honest physio to understand that that distinction existed. It took [vrsn] about six weeks to demonstrate it.</p>
+
+    <div class="copy-section-lbl">Proof</div>
+    <div class="pull-quote">
+      Long-term orthotic users who switch to [vrsn] report a consistent pattern: the pain relief arrives within the first few weeks, the dependency reduction takes longer - three to six months - but it arrives. Physios who work with these buyers describe measurable improvement in intrinsic foot muscle engagement that doesn't occur with continued orthotic use alone.
+    </div>
+    <div class="pull-quote">
+      The buyers who report the strongest outcomes are those who had been in orthotics for two years or more - people for whom the dependency had become entrenched. The [vrsn] result isn't faster for them. But the direction is different: toward independence, not away from it.
+    </div>
+
+    <div class="copy-section-lbl">Resolution</div>
+    <div class="subhead">What eight months looked like.</div>
+    <p class="body-copy">I didn't throw my orthotics away. I put them in a drawer and started an experiment: [vrsn] only, for thirty days. No orthotics as backup. If the pain came back at the level that was affecting my work, I'd go back.</p>
+    <p class="body-copy">The pain didn't come back at that level. By month two, my physio was commenting on my arch engagement. By month four, I wore a non-[vrsn] shoe for a long weekend - something flat with minimal support - and survived it without consequence. By month eight, I stopped thinking about it.</p>
+    <p class="body-copy">I'm not suggesting everyone can exit orthotics. I'm saying that dependency is not inevitable, and that there are shoes designed around a different set of assumptions. I wish someone had told me that four years and $1,500 earlier.</p>
+
+    <div class="copy-section-lbl">CTA</div>
+    <div class="cta-block">
+      <div class="cta-main">The shoe designed to make itself unnecessary.</div>
+      <div class="cta-sub">100-day guarantee. If your feet don't feel stronger and more capable, return them free of charge.</div>
+      <div class="cta-btn">Shop [vrsn] - Try Risk Free</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── ADV 03 ─── -->
+<div class="sec-div">
+  <div class="sec-div-num">ADV 03</div>
+  <div class="sec-div-title">"I Loved My Comfort Lifestyle Shoes. Then I Could Barely Walk."</div>
+  <div class="sec-div-tag tag-full">Full Copy</div>
+</div>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">ADVERTORIAL 03</div>
+    <div class="copy-title">The Post-Lifestyle-Shoe Intercept</div>
+    <div class="copy-target">Target: Style-conscious 32–50 · PF from comfort/DTC shoes · Refuses "orthopedic" aesthetic</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Hero Headline</div>
+    <div class="headline">I Bought the "Comfortable" Shoes Everyone Was Talking About.<br>Six Months Later, I Had Plantar Fasciitis.</div>
+    <p class="body-copy">I want to say upfront: the shoes were beautiful. I understood why everyone was buying them. They looked exactly like what I'd been searching for - something that looked good with everything, made from materials that felt considered, from a brand that seemed to share my values.</p>
+    <p class="body-copy">The problem revealed itself slowly. Not dramatically. Just a tightness in my arch when I stood up from my desk. Then a sharpness in my heel after a long walk. Then, eventually, the thing my physio called plantar fasciitis and I called six months of regretting a purchase.</p>
+
+    <div class="copy-section-lbl">Problem - The Soft Foam Trap</div>
+    <div class="subhead">What "comfortable" actually meant.</div>
+    <p class="body-copy">Comfort lifestyle shoes feel extraordinary in the store. The foam is incredibly soft. The silhouette is clean. The brand story is appealing. What the brand story doesn't mention: soft foam compresses quickly, provides minimal arch support, and collapses unevenly over time in ways that put asymmetric load on the plantar fascia.</p>
+    <p class="body-copy">This is not a flaw specific to any one brand. It's a consequence of prioritising feel-in-hand over biomechanical function. Many of the most popular comfort shoes on the market are optimised for how they feel when you first put them on - which is not the same as what they do to your feet over the course of a day, a week, or a year.</p>
+    <p class="body-copy">My physio was not surprised when I told her what I'd been wearing. She nodded in a way that told me she'd had this conversation before.</p>
+
+    <div class="copy-section-lbl">The Impossible Choice</div>
+    <div class="subhead">The shoes that fixed my feet looked terrible.</div>
+    <p class="body-copy">I tried the alternatives. I found them all deeply depressing. The colours, the silhouettes, the way they looked at dinner. I am not a person who is comfortable sacrificing aesthetics entirely, and I found that I was being asked to make a permanent one-or-the-other choice: your feet, or your sense of how you want to move through the world.</p>
+    <p class="body-copy">I tried three of the major pain-relief and orthopedic shoe brands. They worked, to varying degrees. I resented wearing all of them. I kept a pair under my desk and wore different shoes to dinner. This was not sustainable.</p>
+    <p class="body-copy">I was looking for something that solved the problem without requiring me to look like I was solving a medical problem.</p>
+
+    <div class="copy-section-lbl">Discovery - [vrsn]</div>
+    <div class="subhead">The thing that shouldn't exist - but does.</div>
+    <p class="body-copy">A friend who works in footwear mentioned [vrsn] without any particular ceremony. "They're the ones that actually look good," she said. I was skeptical in the specific way that comes from having been disappointed before.</p>
+    <p class="body-copy">The [vrsn] design is a proper lifestyle sneaker silhouette - the kind of thing that works in most contexts, not a compromise shape that tries to hide its therapeutic origins. And underneath that silhouette is OrthoLite and SweetFoam - a cushioning system with enough genuine biomechanical function to actually address plantar fasciitis, not just soften the impact of it.</p>
+    <p class="body-copy">"The design brief was unusual," says Dr. D. Ashford, DPM, who consulted on the development. "Most orthopedic footwear starts from function and works toward aesthetics. [vrsn] started from both simultaneously. That's harder to engineer, but it's what the market actually needs."</p>
+    <p class="body-copy">I didn't know any of that when I ordered them. I just knew they looked right and the reviews were consistent enough to be worth the risk.</p>
+
+    <div class="copy-section-lbl">Proof</div>
+    <div class="pull-quote">
+      Buyers who found [vrsn] after developing foot pain from a comfort or lifestyle shoe describe a specific kind of relief: not just the pain going away, but the realisation that they don't have to choose anymore. The shoe that fixes the problem can also be the shoe they reach for first.
+    </div>
+    <div class="pull-quote">
+      The pattern across this buyer group is consistent: pain managed within six weeks, aesthetic anxiety gone within a day. The second thing surprises them more than the first. They expected the support to work. They didn't expect to actually want to wear it.
+    </div>
+
+    <div class="copy-section-lbl">Resolution</div>
+    <div class="subhead">What actually changed.</div>
+    <p class="body-copy">The arch pain cleared first - within two weeks. The heel pain took longer, about six weeks before it stopped being present at the start of every morning. By month three I stopped thinking of [vrsn] as my "physio shoes" and started thinking of them as my go-to pair. They went to a work event. They went to dinner. They went to the airport.</p>
+    <p class="body-copy">My physio asked if I'd changed anything. I told her about [vrsn]. She said she had other patients who'd started wearing them and had similar results. I asked why no one had mentioned them to me earlier. She said most people don't know they exist.</p>
+    <p class="body-copy">That seemed like something worth changing.</p>
+
+    <div class="copy-section-lbl">CTA</div>
+    <div class="cta-block">
+      <div class="cta-main">Pain relief that actually looks like something you'd want to wear.</div>
+      <div class="cta-sub">100-day guarantee. Wear them everywhere. Return them free if they don't fix the problem.</div>
+      <div class="cta-btn">Shop [vrsn] - Try Risk Free</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHAPTER 03: LISTICLES -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="chapter" id="list">
+  <div class="chapter-num">03</div>
+  <div class="chapter-title">Listicles / Comparison Pages</div>
+  <div class="chapter-sub">Full copy · Numbered format · 3 angles</div>
+</div>
+
+<!-- ─── LIST 01 ─── -->
+<div class="sec-div">
+  <div class="sec-div-num">LIST 01</div>
+  <div class="sec-div-title">"7 Signs Your Shoes Are Making Your Foot Pain Worse"</div>
+  <div class="sec-div-tag tag-full">Full Copy</div>
+</div>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">LISTICLE 01</div>
+    <div class="copy-title">Problem-First · Top of Funnel · Funnel Feeder</div>
+    <div class="copy-target">Target: Cold traffic · Broad foot pain · Self-diagnosis audience</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Page Headline</div>
+    <div class="headline">7 Signs Your Shoes Are Making Your Foot Pain Worse (Not Better)</div>
+    <p class="body-copy">Most people assume that if their feet hurt, the solution is more support. More cushioning. A more "orthopedic" shoe. This assumption is behind a lot of very expensive mistakes - and a lot of people who are still in pain after doing everything they were told to do.</p>
+    <p class="body-copy">The problem isn't always the amount of support. Sometimes it's the wrong kind. Sometimes it's a shoe that's actively working against your foot's ability to recover. Here are seven signs that your current shoes are making things worse - and what to look for instead.</p>
+
+    <div class="copy-section-lbl">Numbered Items</div>
+
+    <div class="numbered-item">
+      <div class="item-num">1</div>
+      <div class="item-body">
+        <div class="item-title">Your pain is worst in the morning, right after you put your shoes on.</div>
+        <div class="item-copy">First-step pain - the sharp heel stab when you stand after resting - is classic plantar fascia inflammation. But here's what's less discussed: if your pain peaks shortly after putting on your shoes (not before), your footwear may be loading your plantar fascia in a way that's irritating it rather than relieving it. The wrong arch height for your foot type can actually increase fascia strain at the point of push-off.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> A shoe with graduated arch support - enough to reduce impact load, not so much that it forces an unnatural position. Your foot should be supported, not propped.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">2</div>
+      <div class="item-body">
+        <div class="item-title">You've been wearing the same "support" shoes for over a year and you're not getting better.</div>
+        <div class="item-copy">Support shoes and orthotics manage pain. That's different from resolving it. If your feet haven't improved after twelve months of consistent support footwear, your shoes may be doing the work your foot muscles should be doing - which means those muscles are getting weaker over time, not stronger. You become dependent on the support, and removing it becomes impossible.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> A shoe engineered for progressive foot loading - one that provides impact relief while still requiring your foot muscles to engage. The distinction is important and underexplained.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">3</div>
+      <div class="item-body">
+        <div class="item-title">Your shoes feel amazing for the first hour and progressively worse after that.</div>
+        <div class="item-copy">Extremely soft foam - a hallmark of many popular comfort and lifestyle shoes - compresses quickly under body weight. What feels incredible in the first hour of wear becomes a much flatter, less supportive surface by hour four. If your foot pain increases steadily throughout the day despite wearing "comfortable" shoes, foam compression is likely a significant factor.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> Dual-density cushioning systems that maintain their integrity across a full day of wear - not just at the point of purchase in a store.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">4</div>
+      <div class="item-body">
+        <div class="item-title">You've developed pain in new places since switching to "pain-relief" shoes.</div>
+        <div class="item-copy">This is more common than it sounds. Rigid orthotics and heavily structured shoes change your gait. They force your foot into a corrected position, which shifts load to other parts of your foot, ankle, knee, and hip. Some people develop Achilles issues after starting orthotics. Some develop knee pain. The foot pain improves; something else starts hurting. This is a sign that your footwear is overcorrecting rather than supporting.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> Support that reduces impact load without locking your foot into a fixed position - allowing natural gait mechanics to continue while the inflamed tissue heals.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">5</div>
+      <div class="item-body">
+        <div class="item-title">You can't be on your feet for more than two hours without pain - even in your "best" shoes.</div>
+        <div class="item-copy">If your most supportive pair still can't get you through a dinner out or a slow museum visit without discomfort, the issue is likely that the shoe isn't actually addressing the mechanical problem causing your pain - it's just softening the experience of it. Pain relief and pain management are different outcomes. Many shoes marketed as "pain relief" are actually just better at absorbing the impact of a problem they aren't solving.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> Footwear designed around the biomechanics of plantar fasciitis specifically - not just around "comfort" as a general concept.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">6</div>
+      <div class="item-body">
+        <div class="item-title">Your shoes are visibly worn on one side - and your foot pain is worse on that side.</div>
+        <div class="item-copy">Uneven wear patterns indicate gait compensation - your body adjusting its movement to avoid pain, which creates new problems over time. If your heel pain has led to a slightly altered walking pattern (putting more weight on the ball of your foot, or rolling outward), your shoe's wear pattern will reveal it. Most support shoes don't address compensatory gait - they're built for standard biomechanics, not for the altered mechanics that chronic pain creates.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> Consistent cushioning across the full footbed - not just a reinforced heel - so that however your compensating gait loads the shoe, support is present.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">7</div>
+      <div class="item-body">
+        <div class="item-title">You won't wear your pain-relief shoes anywhere except when you absolutely have to.</div>
+        <div class="item-copy">This is the one nobody talks about, but it matters: if you don't want to wear your "good" shoes - if you only wear them at work or for long walks, and swap them out as soon as you're somewhere that aesthetics matter - you're not giving your feet the consistent environment they need to recover. Recovery from plantar fasciitis requires consistent load management, not occasional intervention on your worst days. A shoe you won't wear consistently is not actually doing its job.</div>
+        <div class="item-resolution"><strong>What to look for instead</strong> A shoe you'll actually want to wear everywhere, every day - not just when the pain forces you to.</div>
+      </div>
+    </div>
+
+    <div class="copy-section-lbl">Closing + CTA</div>
+    <div class="subhead">The common thread across all seven.</div>
+    <p class="body-copy">Each of these signs points to a gap between what shoes are marketed to do and what they actually accomplish. Pain relief and pain management are different things. Comfort and foot health are different things. A shoe that ticks the "support" box isn't automatically the right shoe for your specific foot, your specific pain pattern, and your specific life.</p>
+    <p class="body-copy">Finding out which shoe actually works for you is easier than it used to be - if you know what to ask.</p>
+
+    <div class="cta-block">
+      <div class="cta-main">Not sure what your feet actually need? Take the quiz.</div>
+      <div class="cta-sub">5 questions. Personalised recommendation. No email required to see your result.</div>
+      <div class="cta-btn">Find My [vrsn] Fit →</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── LIST 02 ─── -->
+<div class="sec-div">
+  <div class="sec-div-num">LIST 02</div>
+  <div class="sec-div-title">"[vrsn] vs Kuru vs Hoka vs Orthofeet: The Honest Comparison (2026)"</div>
+  <div class="sec-div-tag tag-full">Full Copy</div>
+</div>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">LISTICLE 02</div>
+    <div class="copy-title">Editorial Comparison · High Intent · Intercepts Competitor Traffic</div>
+    <div class="copy-target">Target: Research-mode buyers · Comparing brands · High purchase intent</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Page Headline + Intro</div>
+    <div class="headline">[vrsn] vs Kuru vs Hoka vs Orthofeet:<br>The Honest Comparison (2026)</div>
+    <p class="body-copy" style="font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;">Our editorial team tested all four brands across an eight-week period. No brand paid for inclusion or reviewed this article before publication.</p>
+    <p class="body-copy">If you're researching pain-relief footwear, you've probably already seen Kuru's ads. Maybe Hoka's. Maybe you've been through the Orthofeet site. The category has become crowded enough that comparison research is necessary - and honest enough comparison content is rare enough that most people give up and go with whatever has the most reviews.</p>
+    <p class="body-copy">This is our attempt to do better than that. We looked at four brands across six criteria that matter to people who are actually in pain, not people who are reviewing shoes at a desk. Here's what we found.</p>
+
+    <div class="copy-section-lbl">Comparison Table</div>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Criteria</th>
+          <th>[vrsn]</th>
+          <th>Kuru</th>
+          <th>Hoka</th>
+          <th>Orthofeet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="vrsn-row">
+          <td>Pain relief efficacy</td>
+          <td class="tick">✓ Strong</td>
+          <td class="tick">✓ Strong</td>
+          <td class="partial">~ Moderate</td>
+          <td class="tick">✓ Strong</td>
+        </tr>
+        <tr>
+          <td>Foot strength over time</td>
+          <td class="tick">✓ Yes - by design</td>
+          <td class="cross">✗ Dependency model</td>
+          <td class="cross">✗ Not the design goal</td>
+          <td class="cross">✗ Dependency model</td>
+        </tr>
+        <tr class="vrsn-row">
+          <td>Machine washable</td>
+          <td class="tick">✓ Yes</td>
+          <td class="cross">✗ No</td>
+          <td class="cross">✗ No</td>
+          <td class="cross">✗ No</td>
+        </tr>
+        <tr>
+          <td>Lifestyle aesthetics</td>
+          <td class="tick">✓ Sneaker silhouette</td>
+          <td class="partial">~ Functional look</td>
+          <td class="partial">~ Athletic/bulky</td>
+          <td class="cross">✗ Clinical aesthetic</td>
+        </tr>
+        <tr class="vrsn-row">
+          <td>Review volume</td>
+          <td class="partial">~ Growing</td>
+          <td class="tick">✓ 58K+ reviews</td>
+          <td class="tick">✓ Very high</td>
+          <td class="tick">✓ High</td>
+        </tr>
+        <tr>
+          <td>Price point</td>
+          <td class="tick">✓ ~$89</td>
+          <td class="cross">✗ $130–165</td>
+          <td class="cross">✗ $130–200</td>
+          <td class="partial">~ $90–160</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="copy-section-lbl">Brand-by-Brand Breakdown</div>
+
+    <div class="numbered-item">
+      <div class="item-num">1</div>
+      <div class="item-body">
+        <div class="item-title">[vrsn] - What It Actually Does Differently</div>
+        <div class="item-copy">We'll be straightforward: [vrsn] has fewer reviews than Kuru, and less brand recognition than Hoka. If you're buying on established credibility alone, one of the others will feel safer.</div>
+        <div class="item-copy">What [vrsn] has that the others don't: a design philosophy built around progressive strength rather than ongoing dependency. OrthoLite insoles and SweetFoam cushioning provide genuine impact relief - the pain management is real - but the shoe's construction is designed to leave your foot muscles engaged rather than bypassing them. Buyers consistently report pain reduction alongside improved foot strength over time. That combination is unique in the category.</div>
+        <div class="item-copy">[vrsn] is also the only machine-washable pain-relief sneaker available. For people who wear their shoes 12+ hours a day, this matters medically, not just aesthetically. The lifestyle silhouette means it goes to dinner, on a trip, and to work without asking you to look like you're recovering from something. At ~$89, it's meaningfully more accessible than Kuru or Hoka.</div>
+        <div class="item-copy"><strong>Best for:</strong> Buyers who want pain relief without long-term dependency; people who wear their shoes all day every day; anyone who has tried the clinical options and found them too rigid, too bulky, or too orthopedic-looking to wear consistently.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">2</div>
+      <div class="item-body">
+        <div class="item-title">Kuru - The Category Leader</div>
+        <div class="item-copy">Kuru is the most sophisticated brand in the pain-relief sneaker space. 58,000+ five-star reviews is not an accident - their KURUSOLE heel cup technology genuinely works for heel pain, and their DTC funnel is the most mature in the category. They are the benchmark.</div>
+        <div class="item-copy">What they don't do: their support model requires ongoing wear. Buyers report that removing Kuru shoes after long-term use results in immediate pain return - because the shoe has been doing the work the foot muscles should be doing. Kuru is also not machine washable. At $130-165, they're a significant investment. And their aesthetic reads as athletic-therapeutic rather than lifestyle.</div>
+        <div class="item-copy"><strong>Best for:</strong> Chronic heel pain, buyers who want maximum clinical credibility and a large review corpus. If you're comparing on review volume alone, Kuru wins. If you're comparing on whether your feet will actually get stronger, it's a different conversation.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">3</div>
+      <div class="item-body">
+        <div class="item-title">Hoka - The Crossover Brand</div>
+        <div class="item-copy">Hoka wasn't designed for pain relief - it was designed for ultra-marathon running. The max-cushion, rocker-sole design became popular with pain sufferers because the cushioning genuinely reduces impact. Podiatrists started recommending them because they were better than nothing. This doesn't make them the optimal choice; it makes them the default recommendation from clinicians who weren't aware of dedicated pain-relief footwear.</div>
+        <div class="item-copy">Hoka is heavy. It doesn't have a pain-relief design intention. The aesthetic is aggressively athletic, which limits how and where people will actually wear it consistently. At $130-200, you're paying premium for cushioning technology that was built for elite runners, not for a nurse who needs to get through a twelve-hour shift.</div>
+        <div class="item-copy"><strong>Best for:</strong> Runners who want maximum cushioning. As a dedicated pain-relief shoe, it's a workaround, not a solution.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">4</div>
+      <div class="item-body">
+        <div class="item-title">Orthofeet - The Clinical Option</div>
+        <div class="item-copy">Orthofeet is the most clinically oriented brand in this comparison. Extra-depth construction, therapeutic widths, diabetic-safe lining - if your foot condition is medically complex, Orthofeet's condition-specific range is genuinely useful. They have the strongest claim on the clinical buyer.</div>
+        <div class="item-copy">The tradeoff: the aesthetic is unambiguously therapeutic. Nobody wears Orthofeet to dinner. The dependency model is the same as Kuru's - ongoing support, not progressive strength. And the online shopping experience assumes a level of foot-condition knowledge most buyers don't have. If you don't know what "extra-depth" means or why it matters, the site doesn't help you figure it out.</div>
+        <div class="item-copy"><strong>Best for:</strong> Medically complex foot conditions - diabetic neuropathy, severe flat feet, post-surgical recovery. For everyday PF or general foot pain, there are better options.</div>
+      </div>
+    </div>
+
+    <div class="copy-section-lbl">Verdict</div>
+    <div class="subhead">What we'd actually recommend, by buyer type.</div>
+    <p class="body-copy">If you need maximum clinical credibility and have simple heel pain: Kuru. If you're a runner who wants max cushioning: Hoka. If you have a medically complex foot condition: Orthofeet. If you want pain relief that actually improves your foot strength over time, in a shoe you'll want to wear consistently because it doesn't look like a medical device: [vrsn].</p>
+    <p class="body-copy">The case for [vrsn] is strongest among buyers who have already tried the others - the people who've spent money on Kuru or Orthofeet and found that the pain was managed but never resolved. That's the conversation [vrsn] was built to answer.</p>
+
+    <div class="cta-block">
+      <div class="cta-main">Not sure which one fits your situation? Take the quiz.</div>
+      <div class="cta-sub">5 questions. We'll tell you exactly which approach is right for your feet.</div>
+      <div class="cta-btn">Find My [vrsn] Fit →</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── LIST 03 ─── -->
+<div class="sec-div">
+  <div class="sec-div-num">LIST 03</div>
+  <div class="sec-div-title">"We Spent 2 Weeks Reading Everything the Internet Says About Foot Pain. Nobody's Telling You This."</div>
+  <div class="sec-div-tag tag-full">Full Copy</div>
+</div>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">LISTICLE 03</div>
+    <div class="copy-title">The Internet Truth List · Retargeting Destination · Brand-Skeptic Buyer</div>
+    <div class="copy-target">Target: Retargeting · Seen the brand · Doing independent research · High skepticism</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Page Headline + Intro</div>
+    <div class="headline">We Spent 2 Weeks Reading Everything the Internet Says About Foot Pain.<br><span style="font-size:17px;font-style:italic;">Nobody's Telling You This.</span></div>
+    <p class="body-copy">Forums. Reddit threads. Physio blogs. YouTube comments. Product reviews with 400 upvotes and zero resolution. We read them all. Not the brand sites - those are optimised to sell you something. The places people go when they've already bought three things that didn't work and they're starting to lose faith that anything will.</p>
+    <p class="body-copy">What we found: the people who actually got better have been saying the same seven things for years. Nobody in the industry is listening. We are. Here's what they said.</p>
+
+    <div class="copy-section-lbl">The 7 Things</div>
+
+    <div class="numbered-item">
+      <div class="item-num">1</div>
+      <div class="item-body">
+        <div class="item-title">"The first pair that helped wasn't the one everyone recommended."</div>
+        <div class="item-copy">This is the most common pattern across every foot pain forum, and nobody in the industry wants to talk about it. People spend $150 on the most-reviewed brand. It doesn't work. They give up. Six months later they post again: something less marketed, less visible, less hyped - that one worked. It keeps happening because review volume and fit are completely different variables. Brands spend enormous money making you think they're the same thing.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> This is why we built a quiz. The right answer depends on your specific pain type, your history, and what you've already tried - not on which brand has the biggest ad spend this quarter.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">2</div>
+      <div class="item-body">
+        <div class="item-title">"The moment I started relying on the shoes, I stopped getting better."</div>
+        <div class="item-copy">This one doesn't appear in shoe forums. It appears in physio forums, where the people who understand the actual mechanism are talking. What they consistently describe: support footwear reduces pain by doing the work your foot muscles should be doing. Same reason your arm weakens in a cast. The support is real. The recovery it implies is not. People who report full resolution - not just management - are almost always the ones who found a shoe that cushioned the impact without replacing their foot's own function. The rest are still managing.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> "Relief today, strength tomorrow" is a design specification. The engineering leaves your foot muscles engaged while absorbing the peak impact that causes pain. That distinction is the difference between ongoing dependency and actual progress.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">3</div>
+      <div class="item-body">
+        <div class="item-title">"I know what shoes fix my feet. I refuse to wear them. And I've been in pain for two years."</div>
+        <div class="item-copy">This thread exists in hundreds of variations and it never gets resolved. Someone 38, 42, 47 years old has figured out exactly what works biomechanically and cannot bring themselves to wear it consistently because the shoe is unacceptable to the rest of their life. So they rotate. Pain shoes at work, other shoes at dinner. Pain shoes on the weekend walk, other shoes when they care how they look. And the foot never heals because consistency is the requirement and the available options make consistency impossible. The industry decided people in pain will eventually accept any aesthetic. These threads prove they won't. They'll just stay in pain longer.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> This is the specific problem [vrsn] was built to solve. Not a clinical shoe with nicer colors. A lifestyle sneaker silhouette engineered for pain relief from the design brief up. The shoe you actually want to wear consistently - which is the only way any shoe works.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">4</div>
+      <div class="item-body">
+        <div class="item-title">"Has anyone actually gotten better? Not managed. Actually better."</div>
+        <div class="item-copy">This is the question that breaks your heart a little every time you see it, because it's asked by someone who has been managing for so long they've forgotten that better is even an option. The forum answers are almost always about management. But buried in the comments, in every thread, there's a smaller group describing something different: a specific moment when they stopped thinking about their feet. Not because they gave up. Because the problem stopped being the organising principle of their day. That group almost always describes footwear that kept their foot muscles working rather than replacing them. The mechanism is consistent. The outcome is different from everything else in the category.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> The pattern in [vrsn] reviews that stands apart is not pain relief. It's buyers who stopped mentioning their feet. That's a different outcome category from the rest of the market.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">5</div>
+      <div class="item-body">
+        <div class="item-title">"Does a pain-relief shoe exist that you can actually put in the washing machine?"</div>
+        <div class="item-copy">This thread has existed for years across five different communities. It has never had a satisfying answer. Until now. People managing chronic foot pain wear their shoes 12 to 14 hours a day. That's 80 to 100 hours a week inside the same pair of shoes. At some point this stops being a comfort issue and becomes a medical hygiene issue - the kind your podiatrist would care about if the question ever came up. The category has decided this problem doesn't need solving. Every major pain-relief shoe brand - Kuru, Vionic, Orthofeet - is not machine washable. The thread keeps getting asked because the answer doesn't exist. Except it does now.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> Machine washable. OrthoLite insoles and SweetFoam cushioning structurally intact after washing. The only pain-relief sneaker in the category that can make this claim. The answer to a question that's been sitting unanswered on the internet for years.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">6</div>
+      <div class="item-body">
+        <div class="item-title">"My physio told me to stop wearing barefoot shoes on concrete. Nobody told me what to wear instead."</div>
+        <div class="item-copy">The barefoot injury community is large, vocal, deeply informed about foot biomechanics, and completely ignored by every pain-relief brand in the market. These are people who went barefoot specifically because they wanted stronger, healthier feet. What they discovered - through significant collective pain - is that zero-drop works on natural terrain and causes predictable injury on concrete. The standard clinical recommendation is to go back to supportive shoes. For this buyer, that recommendation is both philosophically unacceptable and biomechanically counterproductive. They need a middle position. Nobody in the pain-relief category is talking to them. Nobody is even acknowledging they exist.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> The Goldilocks positioning was built for exactly this buyer. Not zero-drop. Not rigid orthotic. The calibrated middle ground that absorbs concrete impact while leaving foot muscles engaged. The answer the barefoot community has been waiting for that nobody else bothered to build.</div>
+      </div>
+    </div>
+
+    <div class="numbered-item">
+      <div class="item-num">7</div>
+      <div class="item-body">
+        <div class="item-title">"I didn't believe it would work. The 100-day guarantee was the only reason I tried it."</div>
+        <div class="item-copy">This is the most actionable signal in the data and brands consistently underestimate it. The buyers who converted despite deep skepticism cite the return policy more than any other factor. Not the reviews. Not the brand story. Not the technology explanation. The willingness of the company to let them try it long enough to actually know. In a category where people have spent hundreds of dollars on things that failed, a long trial window isn't a marketing tactic. It's the only credible signal that the brand believes its own product. People who've been burned twice learn to read that signal very accurately. The ones who offer 14 or 30 days are telling you something. The ones who offer 100 are telling you something different.</div>
+        <div class="item-resolution"><strong>[vrsn] note</strong> 100-day guarantee. Free returns. Longer than Kuru's 45-day trial. Long enough to know whether your foot strength is actually improving - not just whether the shoe felt good when you first put it on.</div>
+      </div>
+    </div>
+
+    <div class="copy-section-lbl">Closing + CTA</div>
+    <p class="body-copy">These patterns have been sitting in public forums for years. They're not hidden. They're just inconvenient for brands who'd rather talk about their technology than acknowledge that most people in pain are still in pain after buying it. The people who got better are telling you exactly what worked. Seven consistent signals, across thousands of posts, in communities that have no reason to lie.</p>
+    <p class="body-copy">The question is which of the seven applies to you.</p>
+
+    <div class="cta-block">
+      <div class="cta-main">See for yourself - 100-day guarantee, free returns.</div>
+      <div class="cta-sub">No risk. Longer than any comparable trial in the category.</div>
+      <div class="cta-btn">Shop [vrsn] →</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHAPTER 04A: QUIZ - LOGIC VERSION -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="chapter" id="quiz-a">
+  <div class="chapter-num">04A</div>
+  <div class="chapter-title">Quiz Funnel - Version A</div>
+  <div class="chapter-sub">Questions + routing logic · Implementation ready</div>
+</div>
+
+<p class="body-copy" style="margin-top:20px;color:var(--muted);font-size:13px;">Structured for developer implementation. Questions, answer options, and routing logic for building the quiz in Manus.</p>
+
+<div class="copy-page">
+  <div class="copy-hdr">
+    <div class="copy-badge">QUIZ V.A</div>
+    <div class="copy-title">Questions + Routing Logic - Dev Handoff</div>
+    <div class="copy-target">Build first · CTA destination for all 10 LPs</div>
+  </div>
+  <div class="copy-body">
+
+    <div class="copy-section-lbl">Quiz Entry - Headline + Subhead</div>
+    <div class="headline" style="font-size:20px;">Find Your [vrsn] Fit</div>
+    <p class="body-copy">5 quick questions. We'll tell you exactly which [vrsn] approach is right for your feet - based on your pain type, your history, and how you actually live.</p>
+    <p class="body-copy" style="font-size:12px;color:var(--muted);">No email required to see your result.</p>
+
+    <div class="copy-section-lbl">Questions</div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-hdr">
+        <div class="quiz-q-num">Q1</div>
+        <div class="quiz-q-text">Where is your foot pain - or where does it usually start?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt">A - Heel (first thing in the morning especially)</div>
+        <div class="quiz-opt">B - Arch (underside of foot, middle section)</div>
+        <div class="quiz-opt">C - Ball of foot or toes</div>
+        <div class="quiz-opt">D - General fatigue - whole foot gets tired and sore</div>
+        <div class="quiz-opt">E - Knee or lower back pain that started when foot problems did</div>
+      </div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-hdr">
+        <div class="quiz-q-num">Q2</div>
+        <div class="quiz-q-text">How long have you been dealing with this?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt">A - Just started - under 3 months</div>
+        <div class="quiz-opt">B - Several months - it comes and goes</div>
+        <div class="quiz-opt">C - Over a year - it's become a daily reality</div>
+        <div class="quiz-opt">D - Years - I've tried treatments and I'm still managing it</div>
+      </div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-hdr">
+        <div class="quiz-q-num">Q3</div>
+        <div class="quiz-q-text">What have you already tried?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt">A - Nothing yet, just looking for the right starting point</div>
+        <div class="quiz-opt">B - Over-the-counter insoles</div>
+        <div class="quiz-opt">C - Branded pain-relief shoes (Kuru, Hoka, Brooks, similar)</div>
+        <div class="quiz-opt">D - Custom orthotics from a podiatrist</div>
+        <div class="quiz-opt">E - Barefoot / minimalist shoes (Vivobarefoot, Xero, Merrell)</div>
+      </div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-hdr">
+        <div class="quiz-q-num">Q4</div>
+        <div class="quiz-q-text">What matters most to you in the shoe you're looking for?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt">A - Fast relief - I need the pain to stop as quickly as possible</div>
+        <div class="quiz-opt">B - Long-term improvement - I want my feet to actually get stronger</div>
+        <div class="quiz-opt">C - Something I'll actually want to wear - style matters to me</div>
+        <div class="quiz-opt">D - All-day durability - I'm on my feet for 8+ hours</div>
+        <div class="quiz-opt">E - Travel-proof - needs to handle 15–20K steps across different terrains</div>
+      </div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="quiz-q-hdr">
+        <div class="quiz-q-num">Q5</div>
+        <div class="quiz-q-text">Which describes your daily life most accurately?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt">A - On my feet all day for work (healthcare, teaching, hospitality, retail)</div>
+        <div class="quiz-opt">B - Active lifestyle - hiking, running, daily long walks</div>
+        <div class="quiz-opt">C - Frequent traveller - multi-day trips, lots of walking in different places</div>
+        <div class="quiz-opt">D - Desk job with occasional pain - not on feet all day but foot health matters</div>
+        <div class="quiz-opt">E - Mix of everything - varies week to week</div>
+      </div>
+    </div>
+
+    <div class="copy-section-lbl">Routing Logic Table</div>
+    <p class="body-copy" style="font-size:12.5px;margin-bottom:14px;">Primary path is determined by Q3 (prior solutions) + Q4 (priority). Q5 (lifestyle) serves as tiebreaker. Q1 and Q2 refine result page copy, not path destination.</p>
+
+    <table class="route-table">
+      <thead>
+        <tr>
+          <th>Result Path</th>
+          <th>Primary trigger (Q3 + Q4)</th>
+          <th>Tiebreaker (Q5)</th>
+          <th>Routes to</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Chronic PF</strong></td>
+          <td>Q3: C or D (tried brands/orthotics) + Q2: C or D (1yr+) + Q4: A (fast relief)</td>
+          <td>Any</td>
+          <td><span class="route-dest">ADV 01 - PF Story</span></td>
+        </tr>
+        <tr>
+          <td><strong>Orthotics Exit</strong></td>
+          <td>Q3: D (custom orthotics) + Q4: B (long-term strength)</td>
+          <td>Any</td>
+          <td><span class="route-dest">ADV 02 - Orthotics Exit</span></td>
+        </tr>
+        <tr>
+          <td><strong>Barefoot Convert</strong></td>
+          <td>Q3: E (barefoot shoes)</td>
+          <td>Any</td>
+          <td><span class="route-dest">PDP 02 - Barefoot Betrayal</span></td>
+        </tr>
+        <tr>
+          <td><strong>Traveller</strong></td>
+          <td>Q4: E (travel-proof) + Q5: C (traveller)</td>
+          <td>Q5: C</td>
+          <td><span class="route-dest">PDP 03 - Travel</span></td>
+        </tr>
+        <tr>
+          <td><strong>Daily-Wear Pro</strong></td>
+          <td>Q4: D (all-day durability) + Q5: A (on feet for work)</td>
+          <td>Q5: A</td>
+          <td><span class="route-dest">PDP 01 - Daily Wear</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="body-copy" style="font-size:12.5px;margin-top:12px;color:var(--muted);">Default fallback: If no clear path triggers (e.g. Q3: A - nothing tried yet + Q4: C - style), route to ADV 01 (broadest cold audience). All results show the [vrsn] product with 100-day guarantee CTA regardless of path.</p>
+
+  </div>
+</div>
+</div><!-- /wrap -->
+
+<div class="doc-footer">
+  <span>Skyvane × [vrsn] · Full Funnel Copy · Master Doc</span>
+  <span>Internal · April 2026</span>
+</div>
+
+</body>
+</html>
